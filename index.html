@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>lista de Tarefas</title>
+    <style>
+        /*CSS básico para deixar funcional e bonito */
+        body{
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+        h1{
+            text-align: center;
+        }
+        #novaTarefa{
+            width: 70%;
+            padding: 10px;
+            font-size: 16px;
+        }
+        button{
+            padding: 10px 15px;
+            font-size: 16px;
+            margin-left: 10px;
+            cursor: pointer;
+        }
+        ul{
+            list-style-type:none;
+            padding-left: 0;
+        }
+        li{
+            padding: 10px;
+            border-bottom: 1px solid #ccc;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        li.completed{
+            text-decoration: line-through;
+            color: gray;
+        }
+        .btn-remover{
+            background-color: #e74c3c;
+            border: none;
+            color: white;
+            padding: 5px 10px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Minha Lista de Tarefas</h1>
+
+    <imput type="text" id="novaTarefa" placeholder="Digite uma nova tarefa"></imput>
+    <button onclick="adicionartarefa()">adicionar</button>
+
+    <ul id="listaTarefas"></ul>
+</body>
+</html>
