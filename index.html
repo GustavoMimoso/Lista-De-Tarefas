@@ -52,9 +52,41 @@
 <body>
     <h1>Minha Lista de Tarefas</h1>
 
-    <imput type="text" id="novaTarefa" placeholder="Digite uma nova tarefa"></imput>
+    <input type="text" id="novaTarefa" placeholder="Digite uma nova Tarefa"></input>
     <button onclick="adicionartarefa()">adicionar</button>
 
     <ul id="listaTarefas"></ul>
+
+    <script>
+        const novaTarefaInput = document.getElementById('novaTarefa');
+        const listaTarefas = document.getElementById('listaTarefas');
+         //Função para adicionar uma nova tarefa
+        function adicionartarefa() {
+            const texto = novaTarefaInput.value.trim();
+            if(texto === ''){
+                alert('digite uma tarefa válida!');
+                return;
+            }
+            const li = document.createElement('li');
+            li.textContent = texto;
+
+            //Ao clicar no item, amrca como concluida
+            li.addEventListener('click', () => {
+                li.classlist.toggle('completed');
+            });
+            //botão para excluir a tarefa
+            const botaoExcluir = document.createElement('button');
+            botaoExcluir.textContent = 'Excluir';
+            botaoExcluir.className = 'btn-remover';
+            botaoExcluir.addEventListener('click',(e) =>{
+                e.stopPropagation();//para nao ativar toggle do li
+                listaTarefas.removeChild(li);
+            });
+            li.appendChild(botaoExcluir);
+            listaTarefas.appendChild(li);
+
+            novaTarefaInput.value = '';
+        }
+    </script>
 </body>
 </html>
