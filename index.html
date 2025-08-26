@@ -3,107 +3,226 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Lista de Tarefas Acessível</title>
+  <title>Lista de Tarefas com Background Preto</title>
   <style>
+    /* Reset básico para margens e paddings */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
     body {
-      font-family: Arial, sans-serif;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #121212; /* fundo preto escuro */
+      color: #eee;
       max-width: 600px;
       margin: 40px auto;
       padding: 0 20px;
+      line-height: 1.5;
     }
-    h1 {
+
+    header h1 {
+      text-align: center;
+      font-weight: 700;
+      color: #eee;
+      margin-bottom: 35px;
+      font-size: 2rem;
+      letter-spacing: 1.2px;
+    }
+
+    input#novaTarefa {
+      width: 70%;
+      padding: 12px 14px;
+      font-size: 1.1rem;
+      border: 1.8px solid #555;
+      border-radius: 6px;
+      background: #222;
+      color: #eee;
+      transition: border-color 0.3s ease;
+    }
+
+    input#novaTarefa::placeholder {
+      color: #aaa;
+    }
+
+    input#novaTarefa:focus {
+      border-color: #349db3;
+      outline: none;
+      box-shadow: 0 0 8px rgba(52, 157, 179, 0.7);
+      background: #2a2a2a;
+    }
+
+    button {
+      padding: 12px 20px;
+      font-size: 1.1rem;
+      border-radius: 6px;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      color: white;
+      background-color: #349db3;
+      margin-left: 10px;
+      font-weight: 600;
+      box-shadow: 0 2px 5px rgba(52, 157, 179, 0.8);
+    }
+
+    button:hover,
+    button:focus {
+      background-color: #2a7b91;
+    }
+
+    #filtros {
+      margin-top: 30px;
       text-align: center;
     }
-    #novaTarefa {
-      width: 70%;
-      padding: 10px;
-      font-size: 16px;
+
+    #filtros button {
+      width: 120px;
+      background-color: #5c7a8a;
+      margin: 0 8px;
+      font-size: 1rem;
+      padding: 10px 0;
+      border-radius: 30px;
+      box-shadow: 0 3px 6px rgba(92,122,138,0.5);
+      color: #eee;
     }
-    button {
-      padding: 10px 15px;
-      font-size: 16px;
-      margin-left: 10px;
-      cursor: pointer;
+
+    #filtros button[aria-pressed='true'] {
+      background-color: #349db3;
+      box-shadow: 0 4px 12px rgba(52, 157, 179, 1);
+      font-weight: 700;
+      color: white;
     }
-    ul {
-      list-style-type: none;
+
+    #filtros button:hover,
+    #filtros button:focus {
+      background-color: #2a7b91;
+      outline: none;
+    }
+
+    ul#listaTarefas {
+      list-style: none;
+      margin-top: 35px;
       padding-left: 0;
     }
+
     li {
-      padding: 10px;
-      border-bottom: 1px solid #ccc;
+      background: #222;
+      border-radius: 10px;
+      margin-bottom: 15px;
+      padding: 15px 18px;
+      border: 1px solid #444;
       display: flex;
-      justify-content: space-between;
       align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 0 4px rgba(52, 157, 179, 0.3);
+      transition: box-shadow 0.3s ease;
+      color: #eee;
     }
+
+    li:hover,
+    li:focus-within {
+      box-shadow: 0 0 10px rgba(52, 157, 179, 0.6);
+      outline: none;
+    }
+
     li.completed label {
       text-decoration: line-through;
-      color: gray;
+      color: #7a7a7a;
     }
-    .btn-remover {
-      background-color: #e74c3c;
-      border: none;
-      color: white;
-      padding: 5px 10px;
+
+    label {
+      display: flex;
+      align-items: center;
+      flex-grow: 1;
       cursor: pointer;
-      border-radius: 4px;
+      font-size: 1.1rem;
+      user-select: none;
+      color: #eee;
     }
+
+    label input[type='checkbox'] {
+      margin-right: 15px;
+      width: 22px;
+      height: 22px;
+      cursor: pointer;
+      accent-color: #349db3;
+    }
+
+    .btn-editar,
+    .btn-remover {
+      border-radius: 6px;
+      font-size: 0.9rem;
+      padding: 6px 14px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+      user-select: none;
+      width: 80px;
+      margin-left: 12px;
+      transition: background-color 0.3s ease;
+      color: white;
+    }
+
     .btn-editar {
       background-color: #349db3;
-      border: none;
-      color: white;
-      padding: 5px 10px;
-      margin-left: 5px;
-      cursor: pointer;
-      border-radius: 4px;
     }
-    #filtros {
-      margin-top: 15px;
-      text-align: center;
+
+    .btn-editar:hover,
+    .btn-editar:focus {
+      background-color: #2a7b91;
+      outline: none;
     }
-    #filtros button {
-      margin: 0 5px;
+
+    .btn-remover {
+      background-color: #e74c3c;
     }
+
+    .btn-remover:hover,
+    .btn-remover:focus {
+      background-color: #b83833;
+      outline: none;
+    }
+
     #msgErro {
-      color: red;
-      margin-top: 5px;
-      display: none;
+      color: #e74c3c;
+      margin-top: 10px;
+      font-weight: 700;
       text-align: center;
+      font-size: 1rem;
+      user-select: none;
     }
-    button:focus, input:focus {
-      outline: 3px solid #349db3;
-      outline-offset: 2px;
-    }
-    .visually-hidden { 
-      position: absolute !important; 
-      height: 1px; 
-      width: 1px; 
-      overflow: hidden; 
-      clip: rect(1px, 1px, 1px, 1px); 
-      white-space: nowrap; 
-    }
-    @media (max-width: 480px) {
+
+    @media (max-width: 600px) {
       #novaTarefa {
         width: 100%;
-        margin-bottom: 10px;
+        margin-bottom: 12px;
       }
+
       button {
         width: 100%;
         margin-left: 0;
-        margin-bottom: 10px;
+        margin-bottom: 12px;
       }
+
       #filtros button {
-        width: 30%;
-        margin: 5px 1%;
-        font-size: 14px;
+        width: 33.33%;
+        margin: 4px 0;
+        font-size: 1rem;
       }
+
       li {
         flex-direction: column;
         align-items: flex-start;
       }
-      .btn-editar, .btn-remover {
+
+      label {
+        font-size: 1rem;
+      }
+
+      .btn-editar,
+      .btn-remover {
         width: 100%;
-        margin: 5px 0 0 0;
+        margin: 6px 0 0 0;
       }
     }
   </style>
@@ -158,10 +277,12 @@
     }
 
     function atualizarEstadoFiltro() {
-      botoesFiltro.forEach(botao => {
+      botoesFiltro.forEach((botao) => {
         botao.setAttribute('aria-pressed', 'false');
       });
-      document.querySelector(`#filtros button[onclick="filtrar('${filtroAtual}')"]`).setAttribute('aria-pressed', 'true');
+      document
+        .querySelector(`#filtros button[onclick="filtrar('${filtroAtual}')"]`)
+        .setAttribute('aria-pressed', 'true');
     }
 
     function renderizarTarefas() {
@@ -204,7 +325,7 @@
           botaoExcluir.className = 'btn-remover';
           botaoExcluir.setAttribute('aria-label', `Excluir tarefa: ${tarefa.texto}`);
 
-          botaoEditar.addEventListener('click', function(e) {
+          botaoEditar.addEventListener('click', function (e) {
             e.stopPropagation();
 
             const inputEditar = document.createElement('input');
