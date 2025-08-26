@@ -115,11 +115,4 @@ Este projeto está licenciado sob MIT.
 
 ---
 
-## Contato
-
-Seu Nome — seuemail@exemplo.com  
-[GitHub](https://github.com/seuusuario)
-
----
-
 Obrigado por utilizar este projeto! 🎉
