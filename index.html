@@ -47,12 +47,21 @@
             cursor: pointer;
             border-radius: 4px;
         }
+        .btn-editar{
+            background-color: #349db3;
+            border: none;
+            color: white;
+            padding: 5px 10px;
+            margin-left: 5px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
     </style>
 </head>
 <body>
     <h1>Minha Lista de Tarefas</h1>
 
-    <input type="text" id="novaTarefa" placeholder="Digite uma nova Tarefa"></input>
+    <input type="text" id="novaTarefa" placeholder="Digite uma nova Tarefa">
     <button onclick="adicionarTarefa()">adicionar</button>
 
     <ul id="listaTarefas"></ul>
@@ -91,16 +100,56 @@
                     salvarTarefas();
                     renderizarTarefas();
                 });
+                
+                //Botão Editar
+                const botaoEditar = document.createElement('button');
+                botaoEditar.textContent = 'Editar';
+                botaoEditar.className = 'btn-editar';
+
+                //botão Excluir
                 const botaoExcluir = document.createElement('button');
                 botaoExcluir.textContent = 'Excluir';
                 botaoExcluir.className = 'btn-remover';
+
+                //Evento de edição
+                botaoEditar.addEventListener('click', function(e){
+                    e.stopPropagation();
+
+                    //Cria input com valor atual
+                    const inputEditar = document.createElement('input');
+                    inputEditar.type = 'text';
+                    inputEditar.size = 25;
+                    inputEditar.value = tarefa.texto;
+
+                    li.textContent = '';
+                    li.appendChild(inputEditar);
+                    inputEditar.focus();
+                    
+                    function finalizarEdicao(){
+                        const novoTexto = inputEditar.value.trim();
+                        if (novoTexto !== ''){
+                            tarefas[index].texto = novoTexto;
+                            salvarTarefas();
+                            renderizarTarefas();
+                        } else {
+                            renderizarTarefas();
+                        }
+                    }
+
+                    inputEditar.addEventListener('blur', finalizarEdicao);
+                    inputEditar.addEventListener('keydown', (event) => {
+                        if(event.key === 'Enter') {
+                            inputEditar.blur();
+                        }
+                    });  
+                });
                 botaoExcluir.addEventListener('click', (e) =>{
                     e.stopPropagation();
                     tarefas.splice(index, 1);
                     salvarTarefas();
                     renderizarTarefas();
                 });
-                
+                li.appendChild(botaoEditar);
                 li.appendChild(botaoExcluir);
                 listaTarefas.appendChild(li);
             });
