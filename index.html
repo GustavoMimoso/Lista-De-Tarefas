@@ -1,196 +1,277 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-BR">
 <head>
-    <title>Lista de Tarefas</title>
-    <style>
-        /* CSS básico para deixar funcional e bonito */
-        body {
-            font-family: Arial, sans-serif;
-            max-width: 600px;
-            margin: 40px auto;
-            padding: 0 20px;
-        }
-        h1 {
-            text-align: center;
-        }
-        #novaTarefa {
-            width: 70%;
-            padding: 10px;
-            font-size: 16px;
-        }
-        button {
-            padding: 10px 15px;
-            font-size: 16px;
-            margin-left: 10px;
-            cursor: pointer;
-        }
-        ul {
-            list-style-type: none;
-            padding-left: 0;
-        }
-        li {
-            padding: 10px;
-            border-bottom: 1px solid #ccc;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        li.completed {
-            text-decoration: line-through;
-            color: gray;
-        }
-        .btn-remover {
-            background-color: #e74c3c;
-            border: none;
-            color: white;
-            padding: 5px 10px;
-            cursor: pointer;
-            border-radius: 4px;
-        }
-        .btn-editar {
-            background-color: #349db3;
-            border: none;
-            color: white;
-            padding: 5px 10px;
-            margin-left: 5px;
-            cursor: pointer;
-            border-radius: 4px;
-        }
-        #filtros {
-            margin-top: 15px;
-            text-align: center;
-        }
-        #filtros button {
-            margin: 0 5px;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Lista de Tarefas Acessível</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 600px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+    h1 {
+      text-align: center;
+    }
+    #novaTarefa {
+      width: 70%;
+      padding: 10px;
+      font-size: 16px;
+    }
+    button {
+      padding: 10px 15px;
+      font-size: 16px;
+      margin-left: 10px;
+      cursor: pointer;
+    }
+    ul {
+      list-style-type: none;
+      padding-left: 0;
+    }
+    li {
+      padding: 10px;
+      border-bottom: 1px solid #ccc;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    li.completed label {
+      text-decoration: line-through;
+      color: gray;
+    }
+    .btn-remover {
+      background-color: #e74c3c;
+      border: none;
+      color: white;
+      padding: 5px 10px;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+    .btn-editar {
+      background-color: #349db3;
+      border: none;
+      color: white;
+      padding: 5px 10px;
+      margin-left: 5px;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+    #filtros {
+      margin-top: 15px;
+      text-align: center;
+    }
+    #filtros button {
+      margin: 0 5px;
+    }
+    #msgErro {
+      color: red;
+      margin-top: 5px;
+      display: none;
+      text-align: center;
+    }
+    button:focus, input:focus {
+      outline: 3px solid #349db3;
+      outline-offset: 2px;
+    }
+    .visually-hidden { 
+      position: absolute !important; 
+      height: 1px; 
+      width: 1px; 
+      overflow: hidden; 
+      clip: rect(1px, 1px, 1px, 1px); 
+      white-space: nowrap; 
+    }
+    @media (max-width: 480px) {
+      #novaTarefa {
+        width: 100%;
+        margin-bottom: 10px;
+      }
+      button {
+        width: 100%;
+        margin-left: 0;
+        margin-bottom: 10px;
+      }
+      #filtros button {
+        width: 30%;
+        margin: 5px 1%;
+        font-size: 14px;
+      }
+      li {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .btn-editar, .btn-remover {
+        width: 100%;
+        margin: 5px 0 0 0;
+      }
+    }
+  </style>
 </head>
 <body>
+  <header>
     <h1>Minha Lista de Tarefas</h1>
+  </header>
+  <main>
+    <section aria-labelledby="adicionar-tarefa-label">
+      <h2 id="adicionar-tarefa-label" class="visually-hidden">Adicionar nova tarefa</h2>
+      <input type="text" id="novaTarefa" aria-label="Digite uma nova tarefa" placeholder="Digite uma nova tarefa" />
+      <button onclick="adicionarTarefa()" aria-label="Adicionar tarefa">Adicionar</button>
+      <div id="msgErro" role="alert" aria-live="assertive"></div>
+    </section>
+    <nav aria-label="Filtro de tarefas" id="filtros">
+      <button onclick="filtrar('todas')" aria-pressed="true">Todas</button>
+      <button onclick="filtrar('pendentes')" aria-pressed="false">Pendentes</button>
+      <button onclick="filtrar('concluidas')" aria-pressed="false">Concluídas</button>
+    </nav>
+    <section aria-labelledby="lista-tarefas-label">
+      <h2 id="lista-tarefas-label" class="visually-hidden">Lista de tarefas</h2>
+      <ul id="listaTarefas"></ul>
+    </section>
+  </main>
 
-    <input type="text" id="novaTarefa" placeholder="Digite uma nova tarefa">
-    <button onclick="adicionarTarefa()">Adicionar</button>
+  <script>
+    const novaTarefaInput = document.getElementById('novaTarefa');
+    const listaTarefas = document.getElementById('listaTarefas');
+    const msgErro = document.getElementById('msgErro');
+    const botoesFiltro = document.querySelectorAll('#filtros button');
 
-    <div id="filtros">
-        <button onclick="filtrar('todas')">Todas</button>
-        <button onclick="filtrar('pendentes')">Pendentes</button>
-        <button onclick="filtrar('concluidas')">Concluídas</button>
-    </div>
+    let tarefas = [];
+    let filtroAtual = 'todas';
 
-    <ul id="listaTarefas"></ul>
+    function salvarTarefas() {
+      localStorage.setItem('tarefas', JSON.stringify(tarefas));
+    }
 
-    <script>
-        const novaTarefaInput = document.getElementById('novaTarefa');
-        const listaTarefas = document.getElementById('listaTarefas');
+    function carregarTarefas() {
+      const tarefasSalvas = localStorage.getItem('tarefas');
+      if (tarefasSalvas) {
+        tarefas = JSON.parse(tarefasSalvas);
+        renderizarTarefas();
+      }
+    }
 
-        let tarefas = [];
-        let filtroAtual = 'todas';
+    function filtrar(filtro) {
+      filtroAtual = filtro;
+      atualizarEstadoFiltro();
+      renderizarTarefas();
+    }
 
-        function salvarTarefas() {
-            localStorage.setItem('tarefas', JSON.stringify(tarefas));
-        }
+    function atualizarEstadoFiltro() {
+      botoesFiltro.forEach(botao => {
+        botao.setAttribute('aria-pressed', 'false');
+      });
+      document.querySelector(`#filtros button[onclick="filtrar('${filtroAtual}')"]`).setAttribute('aria-pressed', 'true');
+    }
 
-        function carregarTarefas() {
-            const tarefasSalvas = localStorage.getItem('tarefas');
-            if (tarefasSalvas) {
-                tarefas = JSON.parse(tarefasSalvas);
-                renderizarTarefas();
-            }
-        }
+    function renderizarTarefas() {
+      listaTarefas.innerHTML = '';
+      tarefas.forEach((tarefa, index) => {
+        if (
+          filtroAtual === 'todas' ||
+          (filtroAtual === 'pendentes' && !tarefa.concluida) ||
+          (filtroAtual === 'concluidas' && tarefa.concluida)
+        ) {
+          const li = document.createElement('li');
+          if (tarefa.concluida) {
+            li.classList.add('completed');
+          }
 
-        function filtrar(filtro) {
-            filtroAtual = filtro;
-            renderizarTarefas();
-        }
+          const label = document.createElement('label');
+          const checkbox = document.createElement('input');
+          checkbox.type = 'checkbox';
+          checkbox.checked = tarefa.concluida;
+          checkbox.setAttribute('aria-label', `Marcar tarefa '${tarefa.texto}' como concluída`);
 
-        function renderizarTarefas() {
-            listaTarefas.innerHTML = '';
-            tarefas.forEach((tarefa, index) => {
-                if (
-                    filtroAtual === 'todas' ||
-                    (filtroAtual === 'pendentes' && !tarefa.concluida) ||
-                    (filtroAtual === 'concluidas' && tarefa.concluida)
-                ) {
-                    const li = document.createElement('li');
-                    li.textContent = tarefa.texto;
-                    if (tarefa.concluida){
-                        li.classList.add('completed');
-                    }
-
-                    li.addEventListener('click', () => {
-                        tarefas[index].concluida = !tarefas[index].concluida;
-                        salvarTarefas();
-                        renderizarTarefas();
-                    });
-
-                    // Botão Editar
-                    const botaoEditar = document.createElement('button');
-                    botaoEditar.textContent = 'Editar';
-                    botaoEditar.className = 'btn-editar';
-
-                    // Botão Excluir
-                    const botaoExcluir = document.createElement('button');
-                    botaoExcluir.textContent = 'Excluir';
-                    botaoExcluir.className = 'btn-remover';
-
-                    botaoEditar.addEventListener('click', function(e) {
-                        e.stopPropagation();
-
-                        const inputEditar = document.createElement('input');
-                        inputEditar.type = 'text';
-                        inputEditar.size = 25;
-                        inputEditar.value = tarefa.texto;
-
-                        li.textContent = '';
-                        li.appendChild(inputEditar);
-                        inputEditar.focus();
-
-                        function finalizarEdicao() {
-                            const novoTexto = inputEditar.value.trim();
-                            if (novoTexto !== '') {
-                                tarefas[index].texto = novoTexto;
-                                salvarTarefas();
-                                renderizarTarefas();
-                            } else {
-                                renderizarTarefas();
-                            }
-                        }
-
-                        inputEditar.addEventListener('blur', finalizarEdicao);
-                        inputEditar.addEventListener('keydown', (event) => {
-                            if (event.key === 'Enter') {
-                                inputEditar.blur();
-                            }
-                        });
-                    });
-
-                    botaoExcluir.addEventListener('click', (e) => {
-                        e.stopPropagation();
-                        tarefas.splice(index, 1);
-                        salvarTarefas();
-                        renderizarTarefas();
-                    });
-
-                    li.appendChild(botaoEditar);
-                    li.appendChild(botaoExcluir);
-                    listaTarefas.appendChild(li);
-                }
-            });
-        }
-
-        function adicionarTarefa() {
-            const texto = novaTarefaInput.value.trim();
-            if (texto === '') {
-                alert('Digite uma tarefa válida!');
-                return;
-            }
-            tarefas.push({texto: texto, concluida: false});
+          checkbox.addEventListener('change', () => {
+            tarefas[index].concluida = checkbox.checked;
             salvarTarefas();
             renderizarTarefas();
-            novaTarefaInput.value = '';
-        }
+          });
 
-        window.onload = carregarTarefas;
-    </script>
+          label.appendChild(checkbox);
+          label.appendChild(document.createTextNode(tarefa.texto));
+          li.appendChild(label);
+
+          // Botões editar e excluir
+          const botaoEditar = document.createElement('button');
+          botaoEditar.textContent = 'Editar';
+          botaoEditar.className = 'btn-editar';
+          botaoEditar.setAttribute('aria-label', `Editar tarefa: ${tarefa.texto}`);
+
+          const botaoExcluir = document.createElement('button');
+          botaoExcluir.textContent = 'Excluir';
+          botaoExcluir.className = 'btn-remover';
+          botaoExcluir.setAttribute('aria-label', `Excluir tarefa: ${tarefa.texto}`);
+
+          botaoEditar.addEventListener('click', function(e) {
+            e.stopPropagation();
+
+            const inputEditar = document.createElement('input');
+            inputEditar.type = 'text';
+            inputEditar.size = 25;
+            inputEditar.value = tarefa.texto;
+
+            li.textContent = '';
+            li.appendChild(inputEditar);
+            inputEditar.focus();
+
+            function finalizarEdicao() {
+              const novoTexto = inputEditar.value.trim();
+              if (novoTexto !== '') {
+                tarefas[index].texto = novoTexto;
+                salvarTarefas();
+                renderizarTarefas();
+              } else {
+                renderizarTarefas();
+              }
+            }
+
+            inputEditar.addEventListener('blur', finalizarEdicao);
+            inputEditar.addEventListener('keydown', (event) => {
+              if (event.key === 'Enter') {
+                inputEditar.blur();
+              }
+            });
+          });
+
+          botaoExcluir.addEventListener('click', (e) => {
+            e.stopPropagation();
+            tarefas.splice(index, 1);
+            salvarTarefas();
+            renderizarTarefas();
+          });
+
+          li.appendChild(botaoEditar);
+          li.appendChild(botaoExcluir);
+
+          listaTarefas.appendChild(li);
+        }
+      });
+    }
+
+    novaTarefaInput.addEventListener('input', () => {
+      msgErro.style.display = 'none';
+    });
+
+    function adicionarTarefa() {
+      const texto = novaTarefaInput.value.trim();
+      if (texto === '') {
+        msgErro.textContent = 'Por favor, digite uma tarefa válida!';
+        msgErro.style.display = 'block';
+        return;
+      }
+      msgErro.style.display = 'none';
+      tarefas.push({ texto: texto, concluida: false });
+      salvarTarefas();
+      renderizarTarefas();
+      novaTarefaInput.value = '';
+    }
+
+    window.onload = () => {
+      carregarTarefas();
+      atualizarEstadoFiltro();
+    };
+  </script>
 </body>
 </html>
