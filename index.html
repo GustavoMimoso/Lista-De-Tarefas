@@ -53,40 +53,73 @@
     <h1>Minha Lista de Tarefas</h1>
 
     <input type="text" id="novaTarefa" placeholder="Digite uma nova Tarefa"></input>
-    <button onclick="adicionartarefa()">adicionar</button>
+    <button onclick="adicionarTarefa()">adicionar</button>
 
     <ul id="listaTarefas"></ul>
 
     <script>
         const novaTarefaInput = document.getElementById('novaTarefa');
         const listaTarefas = document.getElementById('listaTarefas');
+
+        let tarefas = [];
+
+        //Função para salvar tarefas no localstorage
+        function salvarTarefas() {
+            localStorage.setItem('tarefas',JSON.stringify(tarefas));
+        }
+
+        //função para carregar tarefas do localStorage
+        function carregarTarefas(){
+            const tarefasSalvas = localStorage.getItem('tarefas');
+            if(tarefasSalvas){
+                tarefas = JSON.parse(tarefasSalvas);
+                renderizarTarefas();
+            }
+        }
+
+        //Função para renderizar as tarefas na lista
+        function renderizarTarefas(){
+            listaTarefas.innerHTML = '';
+            tarefas.forEach((tarefa, index) => {
+                const li = document.createElement('li');
+                li.textContent = tarefa.texto;
+                if(tarefa.concluida){
+                    li.classList.add('completed');
+                }
+                li.addEventListener('click', () => {
+                    tarefas[index].concluida = !tarefas[index].concluida;
+                    salvarTarefas();
+                    renderizarTarefas();
+                });
+                const botaoExcluir = document.createElement('button');
+                botaoExcluir.textContent = 'Excluir';
+                botaoExcluir.className = 'btn-remover';
+                botaoExcluir.addEventListener('click', (e) =>{
+                    e.stopPropagation();
+                    tarefas.splice(index, 1);
+                    salvarTarefas();
+                    renderizarTarefas();
+                });
+                
+                li.appendChild(botaoExcluir);
+                listaTarefas.appendChild(li);
+            });
+        }
+
          //Função para adicionar uma nova tarefa
-        function adicionartarefa() {
+        function adicionarTarefa() {
             const texto = novaTarefaInput.value.trim();
             if(texto === ''){
                 alert('digite uma tarefa válida!');
                 return;
-            }
-            const li = document.createElement('li');
-            li.textContent = texto;
-
-            //Ao clicar no item, amrca como concluida
-            li.addEventListener('click', () => {
-                li.classlist.toggle('completed');
-            });
-            //botão para excluir a tarefa
-            const botaoExcluir = document.createElement('button');
-            botaoExcluir.textContent = 'Excluir';
-            botaoExcluir.className = 'btn-remover';
-            botaoExcluir.addEventListener('click',(e) =>{
-                e.stopPropagation();//para nao ativar toggle do li
-                listaTarefas.removeChild(li);
-            });
-            li.appendChild(botaoExcluir);
-            listaTarefas.appendChild(li);
-
-            novaTarefaInput.value = '';
         }
+        tarefas.push({texto: texto, concluida: false});
+        salvarTarefas();
+        renderizarTarefas();
+        novaTarefaInput.value = '';
+    }
+    //Carregar as tarefas a pagina
+    window.onload = carregarTarefas;
     </script>
 </body>
 </html>
