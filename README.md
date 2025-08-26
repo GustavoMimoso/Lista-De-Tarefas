@@ -1,46 +1,125 @@
-# Lista de Tarefas (To-Do List)
+# Lista de Tarefas 📝
 
-Projeto simples e funcional de Lista de Tarefas desenvolvido com HTML, CSS e JavaScript puro. Permite ao usuário adicionar, marcar como concluída e remover tarefas de forma interativa e intuitiva.
+## Descrição do projeto
+
+Aplicativo web simples de Lista de Tarefas feito com HTML, CSS e JavaScript puro.  
+Permite adicionar, editar, excluir, marcar tarefas como concluídas e filtrar visualmente entre todas, pendentes e concluídas.  
+Possui design responsivo, acessibilidade aprimorada e fundo preto escuro para conforto visual.
 
 ---
 
 ## Funcionalidades
 
-- Adicionar novas tarefas através de um campo de texto.
-- Marcar tarefas como concluídas ao clicar sobre elas (com efeito visual de riscado).
-- Remover tarefas individualmente clicando no botão "Excluir".
-- Interface limpa, responsiva e fácil de usar.
+- Adição de tarefas com validação de entrada  
+- Edição inline de tarefas  
+- Exclusão individual de tarefas  
+- Marcador de tarefa concluída com checkbox  
+- Filtros para visualizar tarefas: todas, pendentes, concluídas  
+- Mensagem de erro integrada e amigável  
+- Aria-labels e foco visível para acessibilidade  
+- Layout responsivo para múltiplos dispositivos  
+- Armazenamento persistente com localStorage  
 
 ---
 
-## Tecnologias Utilizadas
+## Tecnologias usadas
 
-- **HTML5** para estruturação da página.
-- **CSS3** para estilização e layout responsivo.
-- **JavaScript** para manipulação do DOM e lógica da aplicação.
-
----
-
-## Como Usar
-
-1. Clone ou faça download deste repositório.
-2. Abra o arquivo `index.html` em seu navegador preferido.
-3. Digite a tarefa desejada no campo de entrada.
-4. Clique no botão **Adicionar** para incluir a tarefa na lista.
-5. Clique em qualquer tarefa para marcar/desmarcar como concluída.
-6. Clique no botão **Excluir** para remover uma tarefa.
+- HTML5 com elementos semânticos e ARIA  
+- CSS3 com responsividade e temas escuros  
+- JavaScript para manipulação do DOM e armazenamento  
 
 ---
 
-## Próximas Melhorias (Para Desenvolver)
+## Como usar
 
-- Salvar tarefas no armazenamento local do navegador (localStorage) para persistência.
-- Adicionar opção de editar tarefas existentes.
-- Incluir filtros para visualizar todas, pendentes ou concluídas.
-- Melhorar acessibilidade e responsividade para dispositivos móveis.
+1. Clone o repositório  
+2. Abra o arquivo `index.html` no navegador  
+3. Interaja com a lista: adicione, edite, marque e filtre suas tarefas  
 
 ---
 
-## Autor
+## Imagem do projeto
 
-Desenvolvido por Gustavo Mimoso.
+# Lista de Tarefas 📝
+
+## Descrição do projeto
+
+Aplicativo web simples de Lista de Tarefas feito com HTML, CSS e JavaScript puro.  
+Permite adicionar, editar, excluir, marcar tarefas como concluídas e filtrar visualmente entre todas, pendentes e concluídas.  
+Possui design responsivo, acessibilidade aprimorada e fundo preto escuro para conforto visual.
+
+---
+
+## Funcionalidades
+
+- Adição de tarefas com validação de entrada  
+- Edição inline de tarefas  
+- Exclusão individual de tarefas  
+- Marcador de tarefa concluída com checkbox  
+- Filtros para visualizar tarefas: todas, pendentes, concluídas  
+- Mensagem de erro integrada e amigável  
+- Aria-labels e foco visível para acessibilidade  
+- Layout responsivo para múltiplos dispositivos  
+- Armazenamento persistente com localStorage  
+
+---
+
+## Tecnologias usadas
+
+- HTML5 com elementos semânticos e ARIA  
+- CSS3 com responsividade e temas escuros  
+- JavaScript para manipulação do DOM e armazenamento  
+
+---
+
+## Como usar
+
+1. Clone o repositório  
+2. Abra o arquivo `index.html` no navegador  
+3. Interaja com a lista: adicione, edite, marque e filtre suas tarefas  
+
+---
+
+## Contribuições
+
+Contribuições são bem-vindas! Faça um fork, modifique e envie pull requests.
+
+---
+
+## Licença
+
+Este projeto está licenciado sob MIT.
+
+---
+
+## Contato
+
+Gustavo Henrique de Souza Mimoso — gustavomimoso@outlook.com  
+https://github.com/GustavoMimoso
+
+---
+
+Obrigado por utilizar este projeto! 🎉
+
+---
+
+## Contribuições
+
+Contribuições são bem-vindas! Faça um fork, modifique e envie pull requests.
+
+---
+
+## Licença
+
+Este projeto está licenciado sob MIT.
+
+---
+
+## Contato
+
+Seu Nome — seuemail@exemplo.com  
+[GitHub](https://github.com/seuusuario)
+
+---
+
+Obrigado por utilizar este projeto! 🎉
