@@ -101,18 +101,3 @@ https://github.com/GustavoMimoso
 
 Obrigado por utilizar este projeto! 🎉
 
----
-
-## Contribuições
-
-Contribuições são bem-vindas! Faça um fork, modifique e envie pull requests.
-
----
-
-## Licença
-
-Este projeto está licenciado sob MIT.
-
----
-
-Obrigado por utilizar este projeto! 🎉
